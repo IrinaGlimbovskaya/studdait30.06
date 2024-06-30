@@ -1,0 +1,37 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+}
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.menu {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.menu a {
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.menu a:hover {
+    background-color: #0056b3;
+}
+
+.content {
+    padding: 20px;
+    background-color: #e9ecef;
+    border-radius: 5px;
+}

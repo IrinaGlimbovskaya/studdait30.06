@@ -1,0 +1,51 @@
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        text-align: center;
+    }
+
+    .content {
+        font-size: 18px;
+        margin: 20px;
+    }
+
+    .table-container {
+        display: table;
+        width: 100%;
+        max-width: 600px;
+        margin: 0 auto;
+        border-collapse: collapse;
+    }
+
+    .table-container div {
+        display: table-row;
+    }
+
+    .table-container .cell {
+        display: table-cell;
+        padding: 15px;
+        border: 1px solid #ddd;
+        text-align: left;
+    }
+
+    .button {
+        display: inline-block;
+        background-color: darkorange;
+        color: #fff;
+        padding: 10px 20px;
+        text-decoration: none;
+        border-radius: 5px;
+        margin-top: 20px;
+        transition: background-color 0.3s ease;
+        font-size: 14px;
+    }
+
+    .button:hover {
+        background-color: darkslateblue;
+    }
+
+    h1 {
+        text-align:center;
+        font-size: 1.0em; /* Уменьшаем размер шрифта до 1.5em */
+    }
