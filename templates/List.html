@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block head %}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="static/css/list.css" />
+
+{% endblock %}
+
+{% block body %}
+<h1>Списки тем курсовых и дипломных работ</h1>
+<div class="content">
+
+    <div class="table-container">
+        <div class="table-row">
+            <div class="cell">
+                <h2>Список дипломных работ за 10 лет</h2>
+            </div>
+            <div class="cell">
+                <a href="/diplom" class="button">Посмотреть</a>
+            </div>
+        </div>
+        <div class="table-row">
+            <div class="cell">
+                <h2>Список курсовых работ за 10 лет</h2>
+            </div>
+            <div class="cell">
+                <a href="/kursovaya" class="button">Посмотреть</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

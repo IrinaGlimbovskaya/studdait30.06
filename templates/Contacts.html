@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% block head %}
+<meta name="viewport" content="initial-scale=1, width=device-width" />
+<link rel="stylesheet" href="static/css/index.css" />
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        font-size: 14px;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #f0f0f0;
+    }
+    .content {
+        margin-top: 20px;
+        display: flex;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        width: 90%;
+        height: auto;
+        max-width: 800px;
+        box-sizing: border-box;
+        margin: 20px auto;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+    .form-container, .contact-info {
+        padding: 29px;
+        width: 50%;
+        box-sizing: border-box;
+        font-size:25px;
+    }
+    .form-container {
+
+        border-right: 1px solid #ccc;
+    }
+    h1 {
+        margin-top: 0;
+        font-size: 1em;
+    }
+    label {
+        display: block;
+        margin: 8px 0 4px;
+        font-size: 0.9em;
+    }
+    input, textarea {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        font-size: 0.9em;
+    }
+    button {
+        padding: 8px 12px;
+        background-color: #007BFF;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 0.9em;
+    }
+    button:hover {
+        background-color: #0056b3;
+    }
+</style>
+{% endblock %}
+{% block title %}Контакты{% endblock %}
+
+{% block body %}
+<div class="content">
+    <div class="form-container">
+        <h1>Напишите отзыв, предложение, сообщение:</h1>
+        <form method="POST" action="{{ url_for('Contacts') }}">
+            <label for="name">Имя:</label>
+            <input type="text" id="name" name="name">
+
+            <label for="message">Сообщение:</label>
+            <textarea id="message" name="message" rows="5"></textarea>
+
+            <button type="submit">Отправить</button>
+        </form>
+    </div>
+    <div class="contact-info">
+        <h1>Контактная информация</h1>
+        <p>Кафедра информатики и программной инженерии</p>
+        <p>Улица Гагарина 12</p>
+        <p>Город Рыбница</p>
+        <p>Номер: (00373)-(555)-2-09-03</p>
+    </div>
+</div>
+{% endblock %}

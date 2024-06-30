@@ -1,0 +1,141 @@
+{% extends 'admin/master.html' %}
+{% block head %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Work</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        .form-container {
+            width: 100%;
+            max-width: 800px;
+            margin-top: 20px;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .knopka {
+            text-align: center; /* Выравнивание по горизонтали */
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+    <script>
+        function toggleSubjectField() {
+            var workType = document.getElementById('work_type').value;
+            var subjectField = document.getElementById('subject_field');
+            if (workType === 'diploma') {
+                subjectField.style.display = 'none';
+            } else {
+                subjectField.style.display = 'block';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('work_type').addEventListener('change', toggleSubjectField);
+            toggleSubjectField(); // Initial call to set the correct state on page load
+        });
+    </script>
+</head>
+{% endblock %}
+{% block body %}
+<body>
+    <div class="container">
+        <h2>Создать Титульный Лист</h2>
+        <div class="form-container">
+            <form method="POST">
+                <div class="form-group">
+                    <label for="work_type">Тип работы:</label>
+                    <select id="work_type" name="work_type" required>
+                        <option value="kursovaya">Курсовая</option>
+                        <option value="diploma">Диплом</option>
+                    </select><br>
+                </div>
+                <div class="form-group" id="subject_field">
+                    <label for="subject">Предмет</label>
+                    <input type="text" class="form-control" id="subject" name="subject" required>
+                </div>
+                <div class="form-group">
+                    <label for="theme">Тема</label>
+                    <input type="text" class="form-control" id="theme" name="theme" required>
+                </div>
+                <div class="form-group">
+                    <label for="gender">Пол</label>
+                    <select id="gender" name="gender" required>
+                        <option value="student">Студента</option>
+                        <option value="studentka">Студентки</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="course_number">Номер курса</label>
+                    <select id="course_number" name="course_number" required>
+                        <option value="I">I</option>
+                        <option value="II">II</option>
+                        <option value="III">III</option>
+                        <option value="IV">IV</option>
+                        <option value="V">V</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="student_fio">ФИО студента</label>
+                    <input type="text" class="form-control" id="student_fio" name="student_fio" required>
+                </div>
+                <div class="form-group">
+                    <label for="teacher_fio">ФИО преподавателя</label>
+                    <select id="teacher_fio" name="teacher_fio" required>
+                        {% for teacher in teachers %}
+                            <option value="{{ teacher.id }}">{{ teacher.name }} - {{ teacher.position }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="year">Год</label>
+                    <input type="text" class="form-control" id="year" name="year" required>
+                </div>
+                <div class="knopka">
+                    <button type="submit" class="btn btn-primary">Создать</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+</body>
+{% endblock %}

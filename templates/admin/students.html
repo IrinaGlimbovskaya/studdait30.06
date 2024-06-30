@@ -1,0 +1,32 @@
+<!-- admin/students_list.html -->
+{% extends 'admin/custom_index.html' %}
+
+{% block content %}
+    <h1>Students List</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Game Name</th>
+                <th>Image</th>
+                <th>URL</th>
+                <th>Course</th>
+                <th>Role</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for student in students %}
+                <tr>
+                    <td>{{ student.id }}</td>
+                    <td>{{ student.name }}</td>
+                    <td>{{ student.game_name }}</td>
+                    <td>{{ student.img }}</td>
+                    <td>{{ student.url }}</td>
+                    <td>{{ student.course }}</td>
+                    <td>{{ student.role }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block head %}
+<meta charset="UTF-8">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/search.css') }}">
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<style>
+    .student-option {
+        display: flex;
+        align-items: center;
+    }
+    .student-option img {
+        margin-right: 10px;
+        border-radius: 50%;
+    }
+</style>
+{% endblock %}
+{% block title %}Поиск студента{% endblock %}
+{% block body %}
+<form id="searchForm" method="POST" action="/search_student">
+    <label for="studentSelect">Choose a student:</label>
+    <select id="studentSelect" name="student" required style="width: 100%;">
+        <option value="">Select a student</option>
+        {% for student in students %}
+            <option value="{{ student.id }}" data-img="{{ url_for('static', filename='images/' ~ student.img) }}">
+                {{ student.name }} {{ student.surname }}
+            </option>
+        {% endfor %}
+    </select>
+    <button type="submit">Search</button>
+</form>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script>
+    $(document).ready(function() {
+        function formatStudent (student) {
+            if (!student.id) {
+                return student.text;
+            }
+            var img = $(student.element).data('img');
+            var $student = $(
+                '<span class="student-option"><img src="' + img + '" width="30" height="30" /> ' + student.text + '</span>'
+            );
+            return $student;
+        }
+
+        $('#studentSelect').select2({
+            templateResult: formatStudent,
+            templateSelection: formatStudent
+        });
+    });
+</script>
+{% endblock %}

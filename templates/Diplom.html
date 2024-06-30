@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}Дипломные работы за {{ year }}{% endblock %}
+
+{% block head %}
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/Diplom.css') }}">
+{% endblock %}
+
+{% block body%}
+<div class = "content">
+    <h1>Дипломные работы за {{ year }}</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Имя студента</th>
+                <th>Тема дипломной работы</th>
+                <th>Преподаватель</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in data %}
+                <tr>
+                    <td>{{ item.name_student }}</td>
+                    <td>{{ item.name_diplom }}</td>
+                    <td>{{ item.name_teacher }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+{% endblock %}

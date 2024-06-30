@@ -1,0 +1,94 @@
+{% extends 'base.html'%}
+{% block head%}
+<link rel="stylesheet" href="{{ url_for('static',filename='css/index.css') }}">
+
+{% endblock %}
+{% block title%}Главная страница{% endblock %}
+
+{% block body%}
+<section>
+      <div class="vector-group">
+        <img class="ellipse-icon" alt="" src="static/images/ellipse-1061.svg" />
+        <b class="b1">Этот сайт содержит портфолио студентов групп кафедры Информатики и Программной Инженерии</b>
+        <div class="group-inner"></div>
+      </div>
+  </section>
+<div></div>
+<div class = 'center'>
+  <section>
+      <div class="frame-group">
+                <div class="frame-div">
+                  <div class="frame-wrapper1">
+                    <div class="ellipse-parent">
+                      <div class="frame-inner"></div>
+                      <div class="group"><a href = "/course1">ГРУППА РФ20ДР62ПИ</a></div>
+                    </div>
+                  </div>
+                  <div class="ellipse-wrapper">
+                    <div class="ellipse-div"></div>
+                  </div>
+                  <div class="rectangle-group">
+                    <div class="rectangle-div"></div>
+                    <div class="frame-child1"></div>
+                    <img
+                      class="group-icon"
+                      loading="lazy"
+                      alt=""
+                      src="static/images/РФ20ДР62ПИ(1).png"
+                    />
+                  </div>
+                </div>
+          </div>
+          <div class="frame-group">
+                <div class="frame-div">
+                  <div class="frame-wrapper1">
+                    <div class="ellipse-parent">
+                      <div class="frame-inner"></div>
+                      <div class="group"><a href = "/course2">ГРУППА РФ21ДР62ПИ</a></div>
+                    </div>
+                  </div>
+                  <div class="ellipse-wrapper">
+                    <div class="ellipse-div"></div>
+                  </div>
+                  <div class="rectangle-group">
+                    <div class="rectangle-div"></div>
+                    <div class="frame-child1"></div>
+                    <img
+                      class="group-icon"
+                      loading="lazy"
+                      alt=""
+                      src="static/images/pivo.jpg"
+                    />
+                  </div>
+                </div>
+          </div>
+
+              <a href ="/ListOfGroups"><div class="frame-wrapper2">
+                  <div class="rectangle-container" id="groupContainer">
+                    <div class="frame-child2"></div>
+                    <div class="div">
+                      <p class="p2"></p>Посмотреть список всех групп</p>
+                    </div>
+                  </div>
+                </div></a>
+                </section>
+
+
+
+</div>
+<div class="frame-wrapper3">
+                <div class="group-div">
+                  <img
+                    class="rectangle-icon"
+                    alt=""
+                    src="static/images/rectangle-77@2x.png"
+                  />
+                  <a href="https://rfpgu.ru/"><button class="rectangle-parent10">
+                    <div class="frame-child24"></div>
+                    <div class="div2">Перейди на сайт РФ ПГУ</div>
+                  </button></a>
+                </div>
+              </div>
+<div></div>
+
+{% endblock %}

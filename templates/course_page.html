@@ -1,0 +1,196 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Страница группы {{ course.name }}
+{% endblock %}
+
+{% block head %}
+    {{ super() }}
+    <meta name="viewport" content="initial-scale=1, width=device-width" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/course_page.css') }}">
+    <style>
+        .gallery {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .gallery-container {
+            display: flex;
+            justify-content: center; /* Центрирование содержимого по горизонтали */
+            overflow-x: auto;
+            margin-bottom: 10px;
+            position: relative; /* Для позиционирования кнопок */
+        }
+
+        .gallery-item {
+            margin: 0 5px; /* Небольшие отступы между изображениями */
+            max-width: 100%; /* Фото не будет больше, чем 100% от ширины контейнера */
+            display: flex;
+            justify-content: center; /* Центрирование изображения по горизонтали */
+        }
+
+        .gallery-item img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s ease; /* Убран эффект увеличения */
+        }
+
+        .arrow-prev,
+        .arrow-next {
+            background-color: rgba(255, 255, 255, 0.8); /* Полупрозрачный белый фон */
+            padding: 10px;
+            border-radius: 10%;
+            font-size: 24px;
+            cursor: pointer;
+            outline: none;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 100;
+            color: #333; /* Цвет стрелок */
+        }
+
+        .arrow-prev {
+            left: 10px;
+        }
+
+        .arrow-next {
+            right: 10px;
+        }
+
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9); /* Темный фон с прозрачностью */
+            z-index: 1000;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .lightbox img {
+            max-height: 80vh;
+            max-width: 80vw;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Тень для увеличенного изображения */
+            transition: transform 0.2s ease; /* Плавное изменение при увеличении */
+        }
+
+        .lightbox .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 24px;
+            color: white;
+            cursor: pointer;
+            z-index: 1100;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+<div class="center">
+    <section>
+        <div class="frame-child2"></div>
+        <div class="testimonials3">
+            <div class="curator-name"><b class="b10">{{ course.curator }}</b></div>
+            <div class="div32">Куратор группы</div>
+            <img class="mask-group-icon4" alt="" src="{{ url_for('static', filename='images/' + course.curator_img) }}" />
+            <div class="testimonials-child"></div>
+            <div class="testimonials-item"></div>
+            <div class="testimonials-inner"></div>
+            <img class="line-icon" alt="" src="static/images/line-4.svg" />
+            <div class="div33">{{ course.curators_description }}</div>
+            <img class="testimonials-child1" alt="" src="static/images/group-51.svg" />
+        </div>
+        <b class="b11">Список студентов</b>
+        <div class="students-container">
+            <div class="students-grid">
+                {% for student in students %}
+                    {% if course.course == student.course %}
+                        <div class="student-card">
+                            <a href="/student{{ student.id }}" id="{{ student.id }}">
+                                <img src="{{ url_for('static', filename='images/' + student.img) }}" alt="Фото {{ student.name }}" class="student-photo">
+                                <div class="student-info">
+                                    <h2 class="student-name">{{ student.name }}</h2>
+                                    <p class="student-description">Студент {{ student.course }} курса</p>
+                                </div>
+                            </a>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="line-div"></div>
+        <div class="frame-child3"></div>
+        <div class=""></div>
+        <div class="group3">Общее фото группы</div>
+
+        <img class="you-can-do-with-skilline5" alt="" src="{{ url_for('static', filename='images/' + course.groups_img) }}" />
+
+        <div class="group-frame">
+            <div class="group-wrapper1">
+                <img class="group-child52" alt="" src="static/images/ellipse-1063.svg" />
+                <b class="b14">Группа {{ course.name }}</b>
+                <div class="group-child53"></div>
+            </div>
+        </div>
+
+        <div class="gallery">
+            <h2>Галерея фотографий группы</h2>
+            <div class="gallery-container">
+                {% for photo in group_photos %}
+                <div class="gallery-item">
+                    <img src="{{ url_for('static', filename='images/' + photo) }}" alt="Course Photo" onclick="openLightbox('{{ url_for('static', filename='images/' + photo) }}')">
+                <button class="arrow-prev" onclick="navigate(-1)">&#8249;</button>
+                <button class="arrow-next" onclick="navigate(1)">&#8250;</button>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+
+    </section>
+</div>
+
+<script>
+    let currentImageIndex = 0;
+    const images = document.querySelectorAll('.gallery-item');
+
+    function showImage(index) {
+        images.forEach((img, idx) => {
+            if (idx === index) {
+                img.style.display = 'block';
+            } else {
+                img.style.display = 'none';
+            }
+        });
+    }
+
+    function navigate(direction) {
+        currentImageIndex += direction;
+        if (currentImageIndex < 0) {
+            currentImageIndex = images.length - 1;
+        } else if (currentImageIndex >= images.length) {
+            currentImageIndex = 0;
+        }
+        showImage(currentImageIndex);
+    }
+
+
+    // Показываем первое изображение по умолчанию
+    showImage(0);
+</script>
+
+{% endblock %}
