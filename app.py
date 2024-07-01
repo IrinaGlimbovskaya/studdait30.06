@@ -284,14 +284,10 @@ class MyCustomView2(BaseView):
         students_data = studweb.query.filter_by(course=course_number).all()
 
         # Возвращаем шаблон с данными
-        return self.render('admin/students_by_group.html', students_data=students_data, group_name=group_name, endpoint='mycustomview2')
+        return self.render('admin/students_by_group_zav.html', students_data=students_data, group_name=group_name, endpoint='mycustomview2')
 
     @expose('/create_characteristic', methods=['POST'])
     def create_characteristic(self):
-        id = request.form.get('student_id')
-        if not id:
-            flash('No student selected', 'error')
-            return redirect(url_for('mycustomview.index'))
 
         # Использование сессии для выполнения запросов
         with db_session() as session:
@@ -318,9 +314,7 @@ class MyCustomView2(BaseView):
                 print("Курс:", achievement.img)
                 print("Описание:", achievement.description)
                 print()
-            if not student:
-                flash('Student not found', 'error')
-                return redirect(url_for('mycustomview.index'))
+
 
         # Получение данных из базы данных
         student_name = student.name
@@ -334,7 +328,7 @@ class MyCustomView2(BaseView):
         course = Courses.query.filter_by(course=course_number).first()
         if not course:
             flash('Course not found', 'error')
-            return redirect(url_for('mycustomview.index'))
+            return redirect(url_for('mycustomview2.index'))
 
         group_name = course.name
 
@@ -346,7 +340,7 @@ class MyCustomView2(BaseView):
             template_doc = Document(template_path)
         except Exception as e:
             flash(f'Error loading template: {e}', 'error')
-            return redirect(url_for('mycustomview.index'))
+            return redirect(url_for('mycustomview2.index'))
 
         student_middle_name = student_name.split()[1] if len(student_name.split()) > 1 else student_name
 
@@ -401,33 +395,33 @@ class MyCustomView2(BaseView):
             flash('No group selected', 'error')
             return redirect(url_for('mycustomview.index'))
 
-        # Использование сессии для выполнения запросов
-        with db_session() as session:
-            #student = session.query(Students).get(id)
-            report = curators_report.query.filter_by(group=group_name).first()
-            print(report)
-            if not report:
-                flash('Student not found', 'error')
-                return redirect(url_for('mycustomview.index'))
 
-        job_title = report.job_title
-        half_year = report.half_year
-        year = report.year
-        month = report.month
-        group = report.group
-        curator = report.curator
-        starosta = report.starosta
-        proforg = report.proforg
-        studcom = report.studcom
-        curators_hour = report.curators_hour
-        dates = report.date.split()
-        percents = report.percent.split()
-        grajd_patriot = report.grajd_patriot.replace("\n", "\n")
-        nravst_estet = report.nravst_estet.replace("\n", "\n")
-        trad_vuz = report.trad_vuz.replace("\n", "\n")
-        zdorov_obraz = report.zdorov_obraz.replace("\n", "\n")
-        prof_mer = report.prof_mer.replace("\n", "\n")
-        trud_vosp = report.trud_vosp.replace("\n", "\n")
+        print("group_name",group_name)
+        report = curators_report.query.filter_by(group=group_name).first()
+        print("report",report)
+        if not report:
+            flash('Student not found', 'error')
+            return redirect(url_for('mycustomview.index'))
+
+       # Проверка наличия данных в отчете перед извлечением
+        job_title = report.job_title if report.job_title else ""
+        half_year = report.half_year if report.half_year else ""
+        year = report.year if report.year else ""
+        month = report.month if report.month else ""
+        group = report.group if report.group else ""
+        curator = report.curator if report.curator else ""
+        starosta = report.starosta if report.starosta else ""
+        proforg = report.proforg if report.proforg else ""
+        studcom = report.studcom if report.studcom else ""
+        curators_hour = report.curators_hour if report.curators_hour else ""
+        dates = report.date.split() if report.date else []
+        percents = report.percent.split() if report.percent else []
+        grajd_patriot = report.grajd_patriot.replace("\n", "\n") if report.grajd_patriot else ""
+        nravst_estet = report.nravst_estet.replace("\n", "\n") if report.nravst_estet else ""
+        trad_vuz = report.trad_vuz.replace("\n", "\n") if report.trad_vuz else ""
+        zdorov_obraz = report.zdorov_obraz.replace("\n", "\n") if report.zdorov_obraz else ""
+        prof_mer = report.prof_mer.replace("\n", "\n") if report.prof_mer else ""
+        trud_vosp = report.trud_vosp.replace("\n", "\n") if report.trud_vosp else ""
 
         # Путь к шаблонному документу
         template_path = os.path.join(os.path.dirname(__file__), 'template_curator.docx')
@@ -508,7 +502,7 @@ class MyCustomView2(BaseView):
         return self.students_by_group(group_name)
 
     def is_accessible(self):
-        print("Current user role:", current_user.role)  # Добавьте это для отладки
+        #print("Current user role:", current_user.role)  # Добавьте это для отладки
         return current_user.is_authenticated and current_user.role == 5
 
     def inaccessible_callback(self, name, **kwargs):
@@ -759,19 +753,15 @@ class CuratorView(BaseView):
 
     @expose('/create_group_report', methods=['POST'])
     def create_group_report(self):
-        group_name = request.form.get('group_name')
-        if not group_name:
-            flash('No group selected', 'error')
-            return redirect(url_for('mycustomview.index'))
+        group_name = current_user.name
+        print("group_name",group_name)
 
         # Использование сессии для выполнения запросов
-        with db_session() as session:
-            #student = session.query(Students).get(id)
-            report = curators_report.query.filter_by(group=group_name).first()
-            print(report)
-            if not report:
-                flash('Student not found', 'error')
-                return redirect(url_for('mycustomview.index'))
+        report = curators_report.query.filter_by(group=group_name).first()
+        print("report",report)
+        if not report:
+            flash('Student not found', 'error')
+            return redirect(url_for('curator_view.index'))
 
         job_title = report.job_title
         half_year = report.half_year
@@ -801,7 +791,7 @@ class CuratorView(BaseView):
             template_doc = Document(template_path)
         except Exception as e:
             flash(f'Error loading template: {e}', 'error')
-            return redirect(url_for('mycustomview1.index'))
+            return redirect(url_for('mycustomview.index'))
 
         # Разделение curators_hour на блоки
         curators_hour_blocks = []
